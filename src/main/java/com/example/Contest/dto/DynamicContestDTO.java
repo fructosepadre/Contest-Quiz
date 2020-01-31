@@ -19,4 +19,5 @@ public class DynamicContestDTO {
     String adminId;
     int noOfSkipsAllowed;
     private List<QuestionDTO> questions;
+    private boolean isCompleted;
 }

@@ -59,20 +59,17 @@ public class ContestController {
         return dynamicContestInterface.getDynamicContestByCategory(categoryId);
     }
 
-   public List<DynamicContestDTO> getDynamicContestByAdmin(@PathVariable("adminId") String adminId){
+    @GetMapping(value = "/getDynamicContestByAdmin/{adminId}")
+    public List<DynamicContestDTO> getDynamicContestByAdmin(@PathVariable("adminId") String adminId){
         return dynamicContestInterface.getDynamicContestByUserId(adminId);
     }
 
+    @GetMapping(value = "/getStaticContestByAdmin/{adminId}")
+    public List<StaticContestDTO> getStaticContestByAdmin(@PathVariable("adminId") String adminId){
+        return staticContestInterface.getStaticContestByUserId(adminId);
+    }
 
 
-
-  /*  @PostMapping(value="/subscribeUser/{userID}/{ContestType}/{contestId}")
-    public ResponseEntity<String> subscribeUser(@PathVariable("userId") String userId,@PathVariable("contestType") boolean contestType,@PathVariable("contestId") String contestId){
-        if(contestType) staticContestInterface.subscribeUser(userId);
-    }*/
-
- // @GetMapping(value = "/getQuestionsByContest")
-  //POints calculation will hit this to fetch the details of a particular contest to validate the answers
   @GetMapping(value="/getContest/{contestId}")
   public StaticContestDTO getContest(@PathVariable("contestId") String contestId){
       return staticContestInterface.getContest(contestId);
@@ -84,23 +81,16 @@ public class ContestController {
         return dynamicContestInterface.getContest(contestId);
     }
 
-    @PostMapping(value ="setDynamicNotification/{contestId}")
-    public void setDynamicNotification(@PathVariable("contestId") String contestId,@RequestBody QuestionDTO questionDto){
-      dynamicContestInterface.setDynamicNotification(contestId,questionDto);
+    @GetMapping(value="/getStaticContest/{contestId}")
+    public StaticContestDTO getStaticContest(@PathVariable("contestId") String contestId){
+        return staticContestInterface.getContest(contestId);
     }
+
+
 
     @PostMapping(value = "registerUser/{contestId}/{userId}/{contestType}")
     public void registerUserToStaticContest(@PathVariable("contestId") String contestId,@PathVariable("userId") String userId,@PathVariable("contestType") String contestType){
       contestRegistrationInterface.registerUser(contestId,userId,contestType);
-    }
-
-    @GetMapping(value = "khushboo/{contestId}")
-    public QuestionDTO khushboo(@PathVariable("contestId") String contestId)
-    {
-       // return new ResponseEntity<>(contestId,HttpStatus.OK);
-        QuestionDTO questionDTO = new QuestionDTO();
-        questionDTO.setAnswers("abc");
-        return questionDTO;
     }
 
     ///Implement notification
@@ -108,7 +98,11 @@ public class ContestController {
     public void getDynamicQuestionFromAdmin(@PathVariable("contestId") String contestId,@PathVariable("questionId") String questionId){
       dynamicContestInterface.setDynamicNotification(contestId,questionId);
 
+    }
 
+    @PostMapping(value = "/dynamicContestEnd/{contestId}")
+    public void endDynamicContest(@PathVariable("contestId") String contestId){
+        dynamicContestInterface.endDynamicContest(contestId);
     }
 
 

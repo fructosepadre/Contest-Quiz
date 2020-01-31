@@ -16,4 +16,5 @@ public interface DynamicContestInterface {
 
     void setDynamicNotification(String contestId, String questionId);
 
+    void endDynamicContest(String contestId);
 }

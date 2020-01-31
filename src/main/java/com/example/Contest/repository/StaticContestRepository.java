@@ -11,4 +11,5 @@ public interface StaticContestRepository extends MongoRepository<StaticContest,S
 
     List<StaticContest> findByCategoryId(String categoryId);
 
+    List<StaticContest> findByAdminId(String adminId);
 }

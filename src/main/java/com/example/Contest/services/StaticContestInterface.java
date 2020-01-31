@@ -14,4 +14,5 @@ public interface StaticContestInterface {
 
     StaticContestDTO getContest(String contestId);
 
+    List<StaticContestDTO> getStaticContestByUserId(String adminId);
 }

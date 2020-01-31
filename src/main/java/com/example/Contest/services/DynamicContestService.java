@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -60,7 +61,18 @@ public class DynamicContestService implements DynamicContestInterface {
 
     @Override
     public List<DynamicContestDTO> getDynamicContestByUserId(String adminId) {
-        return dynamicContestRepository.findByAdminId(adminId);
+        List<DynamicContest> dynamicContests = dynamicContestRepository.findByAdminId(adminId);
+        List<DynamicContestDTO> dynamicContestDTOS = new ArrayList<>();
+        for (DynamicContest dynamicContest : dynamicContests) {
+            DynamicContestDTO dynamicContestDTO = new DynamicContestDTO();
+             BeanUtils.copyProperties(dynamicContest,dynamicContestDTO);
+             LocalDateTime now = LocalDateTime.now();
+             if(now.isAfter(dynamicContest.getContestEndTime())){
+                 dynamicContestDTO.setCompleted(true);
+             }
+             dynamicContestDTOS.add(dynamicContestDTO);
+        }
+         return dynamicContestDTOS;
     }
 
     @Override
@@ -79,4 +91,16 @@ public class DynamicContestService implements DynamicContestInterface {
         }
         dynamicContestNotificationDTO.setUserId(userIds);
     }
+
+    @Override
+    public void endDynamicContest(String contestId) {
+
+        Optional<DynamicContest> dynamicContest = dynamicContestRepository.findById(contestId);
+        if(dynamicContest.isPresent()){
+            LocalDateTime now = LocalDateTime.now();
+            dynamicContest.get().setContestEndTime(now);
+        }
+    }
+
+
 }

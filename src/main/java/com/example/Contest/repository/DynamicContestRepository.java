@@ -9,5 +9,5 @@ import java.util.List;
 public interface DynamicContestRepository extends MongoRepository<DynamicContest,String> {
     List<DynamicContest> findByCategoryId(String categoryId);
 
-    List<DynamicContestDTO> findByAdminId(String adminId);
+    List<DynamicContest> findByAdminId(String adminId);
 }
